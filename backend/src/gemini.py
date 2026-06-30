@@ -1,3 +1,8 @@
+"""
+gemini.py — LLM client powered by Groq
+Model: llama-3.3-70b-versatile
+"""
+
 import os
 import re
 import json
@@ -6,7 +11,7 @@ import time
 from dotenv import load_dotenv
 from groq import Groq
 
-from src.prompt import KEYWORD_PROMPT, build_analyse_prompt
+from src.prompt import KEYWORD_PROMPT, build_analyse_prompt, match_keywords, compute_ats_score
 
 load_dotenv()
 
@@ -110,22 +115,45 @@ def extract_keywords(job_description: str) -> dict:
 # ─────────────────────────────────────────────
 
 _EMPTY_ANALYSIS = {
-    "target_role":        "",
-    "ats_score":          0,
-    "matched_keywords":   [],
-    "missing_keywords":   [],
-    "suggested_keywords": [],
-    "section_feedback":   {},
-    "bullet_quality":     "",
-    "formatting_flags":   [],
-    "suggestions":        [],
+    "target_role":             "",
+    "mode":                    "general",
+    "ats_score":               0,
+    "matched_keywords":        [],
+    "missing_keywords":        [],
+    "suggested_keywords":      [],
+    "section_feedback":        {},
+    "bullet_quality":          "",
+    "legacy_formatting_flags": [],
+    "universal_flags":         [],
+    "suggestions":             [],
 }
 
 def analyse_resume(resume_text: str, job_description: str = "", keywords: list = []) -> dict:
-    prompt = build_analyse_prompt(resume_text, job_description, keywords)
+    prompt, mode = build_analyse_prompt(resume_text, job_description, keywords)
     try:
         raw    = _call(prompt, max_tokens=4096)
         result = _parse_json(raw)
+
+        keyword_match    = match_keywords(resume_text, keywords)
+        matched_keywords = keyword_match["matched_keywords"]
+        missing_keywords = keyword_match["missing_keywords"]
+
+        ats_score = compute_ats_score(
+            matched_keywords,
+            missing_keywords,
+            result.get("has_quantified_achievements", False),
+            result.get("summary_quality", "weak"),
+            result.get("bullets_use_action_verbs", False),
+            result.get("missing_sections", []),
+            result.get("legacy_formatting_flags", []),
+            result.get("minor_issues", []),
+            mode,
+        )
+
+        result["matched_keywords"] = matched_keywords
+        result["missing_keywords"] = missing_keywords
+        result["ats_score"]        = ats_score
+        result["mode"]             = mode
         return result
     except Exception as e:
         print(f"[analyse_resume] failed: {e}")

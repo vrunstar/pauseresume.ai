@@ -1,3 +1,7 @@
+"""
+main.py — ATS Resume Checker FastAPI backend
+"""
+
 import os
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -51,13 +55,15 @@ async def analyse(
 
     # ── 4. Return report ────────────────────────────────────────────
     return JSONResponse({
-        "target_role":       result.get("target_role", keyword_data.get("target_role", "")),
-        "ats_score":         int(result.get("ats_score", 0)),
-        "matched_keywords":  result.get("matched_keywords", []),
-        "missing_keywords":  result.get("missing_keywords", []),
-        "suggested_keywords":result.get("suggested_keywords", []),
-        "section_feedback":  result.get("section_feedback", {}),
-        "bullet_quality":    result.get("bullet_quality", ""),
-        "formatting_flags":  result.get("formatting_flags", []),
-        "suggestions":       result.get("suggestions", []),
+        "target_role":             result.get("target_role", keyword_data.get("target_role", "")),
+        "mode":                    result.get("mode", "general"),
+        "ats_score":               int(result.get("ats_score", 0)),
+        "matched_keywords":        result.get("matched_keywords", []),
+        "missing_keywords":        result.get("missing_keywords", []),
+        "suggested_keywords":      result.get("suggested_keywords", []),
+        "section_feedback":        result.get("section_feedback", {}),
+        "bullet_quality":          result.get("bullet_quality", ""),
+        "legacy_formatting_flags": result.get("legacy_formatting_flags", []),
+        "universal_flags":         result.get("universal_flags", []),
+        "suggestions":             result.get("suggestions", []),
     })

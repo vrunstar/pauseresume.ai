@@ -196,9 +196,9 @@ export default function Results() {
       {/* Header */}
       <header style={{ ...styles.header, justifyContent: "center", borderBottom: "none", paddingBottom: 0, position: "relative" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img src="/logo.svg" alt="pauseresume.ai logo" style={{ height: "20px", width: "auto" }} />
+          <img src="/logo.svg" alt="pauseresume.ai logo" style={{ height: "48px", width: "auto" }} />
           <div style={{ ...styles.logo, fontSize: "clamp(2.2rem, 6vw, 3.2rem)" }}>
-            <span style={styles.logoAccent}>results</span>
+            pause<span style={styles.logoAccent}>resume</span>.ai
           </div>
         </div>
         <button style={{ ...styles.backBtn, position: "absolute", right: "24px", top: "50%" , transform: "translateY(-50%)" }} onClick={() => navigate("/")}>
