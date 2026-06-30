@@ -1,4 +1,4 @@
-# ```pauseresumeplay.ai```
+# ```pauseresume.ai```
 
 An ATS resume checker built with FastAPI + React. Upload your resume, optionally paste a job description, and get an instant report card — ATS score, keyword gaps, section feedback, and actionable suggestions.
 
