@@ -33,12 +33,16 @@ ANALYSIS RULES:
 
 ATS SCORE (0-100):
 - Start at 100
-- Deduct 5 per missing JD keyword found in resume (max -40) — only if JD is provided
-- Deduct 10 if resume has no quantified achievements (numbers, percentages, metrics)
-- Deduct 10 if summary/objective is missing or weak (generic, vague)
-- Deduct 10 if any ATS formatting red flags are found (tables, columns, graphics, special symbols)
-- Deduct 5 if bullet points do not start with strong action verbs
-- Deduct 5 if key sections are missing (Skills, Experience or Projects, Education)
+- Deduct exactly 4 points per missing JD keyword found in resume (max -32) — only if JD is provided
+- Deduct 7 if resume has no quantified achievements (numbers, percentages, metrics)
+- Deduct 9 if summary/objective is missing or weak (generic, vague)
+- Deduct 6 if any ATS formatting red flags are found (tables, columns, graphics, special symbols)
+- Deduct 3 if bullet points do not start with strong action verbs
+- Deduct 4 if key sections are missing (Skills, Experience or Projects, Education)
+- Deduct 2 for each minor issue: inconsistent formatting, weak word choice, missing metrics in 1-2 bullets
+- Add back 1-3 points for exceptional strengths (strong quantified impact, perfect keyword alignment, clean structure)
+- Calculate the exact final number — do not round to the nearest 5 or 10
+- The final score must reflect the precise sum of all deductions and additions above, not an estimate
 - Minimum score: 10
 
 SECTION FEEDBACK:
