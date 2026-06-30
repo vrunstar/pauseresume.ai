@@ -82,8 +82,13 @@ def compute_ats_score(
     Deterministic score assembly. The LLM supplies the qualitative inputs
     (summary_quality, bullets_use_action_verbs, etc.) via the analyse prompt;
     this function does the actual arithmetic so it's reproducible.
+
+    Score starts at 95, not 100 — a perfect 100 should be reserved for
+    near-flawless resumes with full keyword alignment, since real-world
+    strong resumes (even very good ones) typically land in the 75-90 range,
+    not the high 90s.
     """
-    score = 100
+    score = 95
 
     if mode == "jd":
         total_kw = len(matched_keywords) + len(missing_keywords)
@@ -91,7 +96,7 @@ def compute_ats_score(
             score -= min(32, 4 * len(missing_keywords))
 
     if not has_quantified_achievements:
-        score -= 7
+        score -= 14
     if summary_quality == "missing":
         score -= 9
     elif summary_quality == "weak":
